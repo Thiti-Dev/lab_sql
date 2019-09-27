@@ -1,0 +1,6 @@
+
+SELECT rental_id,rental_date from rental where rental_date >= '2005-06-01' and rental_date <= '2005-06-30';
+2311
+
+8 
+SELECT rental_id,rental_date,staff_id from rental where rental_date > '2005-05-26 22:00:00' and rental_date <= '2005-05-27 00:00:00' and staff_id = 2
