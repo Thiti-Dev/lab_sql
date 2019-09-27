@@ -1,0 +1,61 @@
+CREATE SCHEMA test1;
+use test1;
+create table THEMEPARK(
+	PARK_CODE 			varchar(10) 		NOT NULL PRIMARY KEY,
+    PARK_NAME 			varchar(35) 		NOT NULL ,
+    PARK_CITY 			varchar(50)			NOT NULL ,
+    PARK_COUNTRY 		char(2) 			NOT NULL 
+    );
+create table EMPLOYEE(
+	EMP_NUM 			numeric(4) 		NOT NULL PRIMARY KEY,
+    EMP_TITLE 			varchar(4),
+    EMP_LNAME 			varchar(15) 		NOT NULL,
+    EMP_FNAME 			varchar(15) 		NOT NULL,
+    EMP_DOB 			date 				NOT NULL,
+    EMP_HIRE_DATE 		date 				NOT NULL,
+    EMP_AREACODE 		varchar(4) 			NOT NULL,
+    EMP_PHONE 			varchar(12) 		NOT NULL,
+	PARK_CODE 			varchar(10)			NOT NULL,
+    foreign key (PARK_CODE) references THEMEPARK(PARK_CODE)
+    );
+create table TICKET(
+	 TICKET_NO 			numeric(10) 		NOT NULL PRIMARY KEY,
+     TICKET_PRICE 		numeric(4,2),
+     TICKET_TYPE		varchar (10) 		NOT NULL,
+     PARK_CODE 			varchar(10) 		NOT NULL,
+     foreign key (PARK_CODE) references THEMEPARK(PARK_CODE)
+     );
+create table ATTRACTION(
+	ATTRACT_NO 			numeric(10) 		NOT NULL PRIMARY KEY,
+    PARK_CODE 			varchar(10) 		NOT NULL,
+    ATTRACT_NAME 		varchar(35) 		NOT NULL ,
+    ATTRACT_AGE 		numeric(3) 			NOT NULL ,
+	ATTRACT_CAPACITY 	numeric(3) 			NOT NULL ,
+	foreign key (PARK_CODE) references THEMEPARK(PARK_CODE)
+    );
+create table HOURS(
+	EMP_NUM 			numeric(4)			NOT NULL,
+    ATTRACT_NO 			numeric(10)			NOT NULL,
+    HOURS_PER_AT_TRACT 	numeric(2)			NOT NULL,
+	HOURS_RATE			numeric(4,2)		NOT NULL,
+    DATE_WORKED			DATE				NOT NULL,
+    PRIMARY KEY(EMP_NUM,ATTRACT_NO),
+	foreign key (EMP_NUM) references EMPLOYEE(EMP_NUM),
+	foreign key (ATTRACT_NO) references ATTRACTION(ATTRACT_NO)
+    );
+create table SALES(
+	TRANSACTION_NO 		numeric 			NOT NULL PRIMARY KEY,
+    PARK_CODE 			varchar(10) 		NOT NULL,
+    SALE_DATE 			DATE 				NOT NULL ,
+	foreign key (PARK_CODE) references THEMEPARK(PARK_CODE)
+    );
+create table SALESLINE(
+	TRANSACTION_NO 		numeric 			NOT NULL PRIMARY KEY,
+    LINE_NO 			numeric(2)			NOT NULL,
+    TICKET_NO 			numeric(10)			NOT NULL,
+    LINE_QTY 			numeric(4)			NOT NULL ,
+	LINE_PRICE 			numeric(9,2)		NOT NULL ,
+	foreign key (TRANSACTION_NO) references SALES(TRANSACTION_NO),
+	foreign key (TICKET_NO) references TICKET(TICKET_NO)
+    );
+

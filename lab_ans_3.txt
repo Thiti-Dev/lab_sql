@@ -1,0 +1,11 @@
+use university_s;
+
+select * from student natural join takes union select ID,name,dept_name,tot_cred,NULL,NULL,NULL,NULL,NULL from student S1 where not exists(select ID from takes T1 where T1.id=S1.id); 
+
+select * from student,takes;
+
+select ID, name,count(sec_id) as 'Numbers of section' from instructor natural left join teaches group by ID;
+
+select course_id,sec_id,name from teaches natural left join instructor where semester='Spring' and year=2010;
+
+select dept_name,count(name) as 'Number of instructor' from department natural left join instructor group by dept_name;

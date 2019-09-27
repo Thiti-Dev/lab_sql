@@ -1,0 +1,22 @@
+use university_s;
+
+select title from course where dept_name = 'Comp. Sci.' and credits = 3;
+
+select distinct takes.ID from takes, teaches where takes.course_id = teaches.course_id and teaches.ID in (select teaches.ID from instructor, teaches where instructor.ID = teaches.ID and name = 'Einstein');
+
+select name from instructor where salary = (select max(salary) from instructor);
+
+select course_id, sec_id, count(*) as Num from takes where semester ='Autumn' and year = 2009 group by course_id, sec_id;
+
+select max(Num) from (select course_id, sec_id, count(*) as Num from takes where semester ='Autumn' and year = 2009 group by course_id, sec_id) as enrollment;
+
+select course_id, sec_id from (select course_id, sec_id, count(*) as Num from takes where semester ='Autumn' and year = 2009 group by course_id, sec_id) as enrollment having max(Num);
+
+/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+insert into course values('CS-001', 'Weekly Seminar', 'Comp. Sci.', 0);
+insert into section values ('CS-001', 1, 'Autumn', 2009, null, null, null);
+insert into takes(ID,course_id,sec_id,semester,year,grade) select ID,'CS-001', 1, 'Autumn', 2009, null from student where dept_name = 'Comp. Sci.';
+delete from takes where ID in (select ID from student where name='Chavez');
+delete from course where course_id = 'CS-001';
+delete from takes where course_id in (select course_id from course where title like '%_database%');
